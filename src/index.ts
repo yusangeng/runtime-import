@@ -4,8 +4,8 @@
  * @author Y3G
  */
 
-import importer, { importModule, importScript } from './importer'
+import importer, { importModule, importScript, importStyle } from './importer'
 
-export { importModule, importScript }
+export { importModule, importScript, importStyle }
 
 export default importer

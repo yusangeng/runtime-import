@@ -34,7 +34,7 @@ export async function importModule (module: ModuleInfo) : Promise<any> {
 }
 
 /**
- * 加载一个JS脚本
+ * 加载一个js脚本
  *
  * @export
  * @param {string} url 脚本地址
@@ -45,4 +45,16 @@ export async function importScript (url: string) : Promise<any> {
   return ret
 }
 
-export default { importModule, importScript }
+/**
+ * 加载一个css文件
+ *
+ * @export
+ * @param {string} url css地址
+ * @returns {Promise<any>}
+ */
+export async function importStyle (url: string) : Promise<void> {
+  const ret = await importModule({ css: [url], js: [] })
+  return ret
+}
+
+export default { importModule, importScript, importStyle }
