@@ -13,7 +13,6 @@
   ],
 
   "plugins": [
-    "@babel/plugin-proposal-class-properties",
-    "transform-object-rest-spread"
+    "@babel/plugin-proposal-class-properties"
   ]
 }
