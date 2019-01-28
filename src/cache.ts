@@ -4,13 +4,16 @@
  * @author Y3G
  */
 
+type FReject = (reason?: any) => void
+
 export enum CacheStatus { NONE, LOADING, LOADED, ERROR }
 
-interface CacheItem {
+export interface CacheItem {
   status: CacheStatus,
   exportThing: any,
   el: HTMLElement | null,
-  error: Error | void
+  error: Error | null,
+  reject: FReject | null,
 }
 
 type CacheItems = { [name: string]: CacheItem }
@@ -26,7 +29,8 @@ class Cache {
         status: CacheStatus.NONE,
         exportThing: void 0,
         el: null,
-        error: void 0
+        error: null,
+        reject: null
       }
 
       return ret
