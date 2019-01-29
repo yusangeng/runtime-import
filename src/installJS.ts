@@ -29,6 +29,7 @@ function doInstallAJS(item: CacheItem, url: string, umd: boolean) : Promise<any>
 
     el.src = url
     el.async = false // 保持时序
+    el.crossOrigin = 'anonymous' // 避免window.onerror拿不到脚本的报错
     
     if (umd) {
       // 用于define函数发生错误时调用, 详见define.ts
