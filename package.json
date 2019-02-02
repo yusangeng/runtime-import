@@ -1,6 +1,6 @@
 {
   "name": "runtime-import",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "前端资源运行时加载器.",
   "main": "lib/index.js",
   "types": "lib/",
