@@ -1,6 +1,6 @@
 # runtime-import | 前端资源运行时加载器
 
-[![Build Status](https://travis-ci.org/yusangeng/runtime-import.svg?branch=master)](https://travis-ci.org/yusangeng/runtime-import) [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Npm Package](https://badge.fury.io/js/runtime-import.svg)](https://www.npmjs.com/package/runtime-import)
+[![TypeScript](https://img.shields.io/badge/lang-typescript-blue.svg)](https://www.tslang.cn/) [![Build Status](https://travis-ci.org/yusangeng/runtime-import.svg?branch=master)](https://travis-ci.org/yusangeng/runtime-import) [![Npm Package](https://badge.fury.io/js/runtime-import.svg)](https://www.npmjs.com/package/runtime-import) [![Downloads](https://img.shields.io/npm/dw/runtime-import.svg?style=flat)](https://www.npmjs.com/package/runtime-import)
 
 A runtime loader to help you to import resource(js or css) from CDN or any website asynchronously.
 

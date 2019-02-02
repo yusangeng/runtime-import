@@ -4,11 +4,13 @@
   "description": "前端资源运行时加载器.",
   "main": "lib/index.js",
   "types": "lib/",
+  "type-chack": "tsc",
   "scripts": {
-    "test": "karma start karma.conf.js",
-    "dts": "tsc --emitDeclarationOnly --outDir lib",
-    "es5": "rm -rf ./lib && babel ./src -d ./lib --extensions '.ts,.tsx' --source-maps inline && npm run dts",
-    "prepublish": "npm run es5"
+    "test": "cross-env BROWSER=Chrome karma start karma.conf.js",
+    "test-jsdom": "cross-env BROWSER=jsdom karma start karma.conf.js --singleRun=true",
+    "es5": "rm -rf ./lib && tsc -p tsconfig.json",
+    "prepublish": "npm run test-jsdom && npm run es5",
+    "ci": "npm run test-jsdom"
   },
   "repository": {
     "type": "git",
@@ -16,6 +18,7 @@
   },
   "keywords": [
     "import",
+    "runtime-import",
     "loader"
   ],
   "author": "Y3G",
@@ -25,22 +28,24 @@
   },
   "homepage": "https://github.com/yusangeng/runtime-import#readme",
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.2.2",
-    "@babel/plugin-proposal-class-properties": "^7.3.0",
-    "@babel/preset-env": "^7.3.1",
-    "@babel/preset-typescript": "^7.1.0",
-    "babel-loader": "^8.0.5",
-    "babel-polyfill": "^6.26.0",
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
     "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
+    "jsdom": "^13.2.0",
     "karma": "^4.0.0",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^2.2.0",
+    "karma-jsdom-launcher": "^7.0.0",
     "karma-mocha": "^1.3.0",
     "karma-webpack": "^3.0.5",
     "mocha": "^5.2.0",
     "sleep-promise": "^8.0.1",
+    "ts-loader": "^5.3.3",
     "typescript": "^3.2.4",
     "webpack": "^4.29.0"
+  },
+  "dependencies": {
+    "tslib": "^1.9.3"
   }
 }

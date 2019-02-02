@@ -1,3 +1,5 @@
+const BROWSER = process.env['BROWSER'] || 'Chrome'
+
 module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -19,7 +21,7 @@ module.exports = function (config) {
 
     // list of files / patterns to load in the browser
     files: [
-      './test/**/*.js' // test文件夹下任意层级的.js文件 将要被测试
+      './test/**/*.spec.ts' // test文件夹下任意层级的.js文件 将要被测试
     ],
 
     // list of files / patterns to exclude
@@ -30,15 +32,14 @@ module.exports = function (config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/**/*.js': ['webpack'],
-      'test/**/*.spec.js': ['webpack']
+      'test/**/*.spec.ts': ['webpack']
     },
 
     // karma 插件
     plugins: [
       'karma-webpack',
       'karma-mocha',
-      'karma-chrome-launcher',
+      `karma-${BROWSER.toLowerCase()}-launcher`,
       'karma-chai'
     ],
 
@@ -48,14 +49,14 @@ module.exports = function (config) {
           {
             test: /\.[jt]sx?$/,
             use: [
-              'babel-loader'
+              'ts-loader'
             ],
             exclude: /node_modules/
           }
         ]
       },
       resolve: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx']
+        extensions: ['.ts', '.tsx', '.js', '.jsx']
       }
     },
 
@@ -79,7 +80,7 @@ module.exports = function (config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: [BROWSER],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

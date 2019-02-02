@@ -1,3 +1,4 @@
+/* global describe it */
 import sleep from 'sleep-promise'
 import installJS from '../src/installJS'
 
@@ -5,6 +6,10 @@ const reactURL = '//unpkg.com/react@16.7.0/umd/react.production.min.js'
 const jqueryURL = '//unpkg.com/jquery@3.3.1/dist/jquery.js'
 
 /* eslint no-undef: 0 */
+
+function loose<T> (value: T) {
+  return value as any
+}
 
 describe('installJS', () => {
   describe('#installJS', () => {
@@ -36,8 +41,8 @@ describe('installJS', () => {
       const t = typeof React.Component
       t.should.eq('function')
 
-      const els = Array.prototype.filter.call(document.querySelectorAll('script'), el => {
-        return el.src === 'http:' + reactURL
+      const els = Array.prototype.filter.call(document.querySelectorAll('script'), (el: HTMLElement) => {
+        return loose(el).src === 'http:' + reactURL
       })
 
       els.length.should.be.eq(1)
@@ -49,8 +54,8 @@ describe('installJS', () => {
 
       await sleep(500)
 
-      const els = Array.prototype.filter.call(document.querySelectorAll('script'), el => {
-        return el.src === 'http:' + jqueryURL
+      const els = Array.prototype.filter.call(document.querySelectorAll('script'), (el: HTMLElement) => {
+        return loose(el).src === 'http:' + jqueryURL
       })
 
       els.length.should.be.eq(1)

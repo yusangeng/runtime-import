@@ -1,4 +1,4 @@
-import 'babel-polyfill'
+/* global describe it */
 import cache from '../src/cache'
 
 /* eslint no-undef: 0 */

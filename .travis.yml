@@ -6,7 +6,7 @@ node_js:
 before_script:
   - npm install
 
-script: npm test
+script: npm ci
 
 notifications:
   email: 

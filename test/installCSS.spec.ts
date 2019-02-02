@@ -1,3 +1,4 @@
+/* global describe it */
 import sleep from 'sleep-promise'
 import installCSS from '../src/installCSS'
 
@@ -5,13 +6,17 @@ const url = '//unpkg.com/bootstrap@4.2.1/dist/css/bootstrap.css'
 
 /* eslint no-undef: 0 */
 
+function loose<T> (value: T) {
+  return value as any
+}
+
 describe('installCSS', () => {
   describe('#installCSS', () => {
     it('should install bootstrap properly.', async () => {
       await installCSS([url])
 
-      const els = Array.prototype.filter.call(document.querySelectorAll('link'), el => {
-        return el.href === 'http:' + url
+      const els = Array.prototype.filter.call(document.querySelectorAll('link'), (el: HTMLElement) => {
+        return loose(el).href === 'http:' + url
       })
 
       els.length.should.be.eq(1)
@@ -36,8 +41,8 @@ describe('installCSS', () => {
       await installCSS([url])
       await installCSS([url])
 
-      const els = Array.prototype.filter.call(document.querySelectorAll('link'), el => {
-        return el.href === 'http:' + url
+      const els = Array.prototype.filter.call(document.querySelectorAll('link'), (el: HTMLElement) => {
+        return loose(el).href === 'http:' + url
       })
 
       els.length.should.be.eq(1)
@@ -49,8 +54,8 @@ describe('installCSS', () => {
 
       await sleep(500)
 
-      const els = Array.prototype.filter.call(document.querySelectorAll('link'), el => {
-        return el.href === 'http:' + url
+      const els = Array.prototype.filter.call(document.querySelectorAll('link'), (el: HTMLElement) => {
+        return loose(el).href === 'http:' + url
       })
 
       els.length.should.be.eq(1)
