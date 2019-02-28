@@ -27,7 +27,7 @@ type FUMDDefine = {
 
 // 模拟AMD, 注意只能用来加载UMD格式的js
 const umdDefine: FUMDDefine = function define (...args: Array<any>) : void {
-  let factory = args[args.length - 1]
+  let factory = args.pop()
   const item = itemQueue.shift()
 
   if (!item) {
@@ -35,7 +35,9 @@ const umdDefine: FUMDDefine = function define (...args: Array<any>) : void {
   }
 
   try {
-    const exportThing = item.exportThing = factory()
+    const exportThing = item.exportThing = factory(...args.map(el => {
+      return win[el]
+    }))
 
     if (exportThing && keys(exportThing).length === 1 && exportThing.default) {
       item.exportThing = exportThing.default
