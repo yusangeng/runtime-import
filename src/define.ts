@@ -35,7 +35,8 @@ const umdDefine: FUMDDefine = function define (...args: Array<any>) : void {
   }
 
   try {
-    const exportThing = item.exportThing = factory(...args.map(el => {
+    const externals = args.shift() || []
+    const exportThing = item.exportThing = factory(...externals.map((el: string) => {
       return win[el]
     }))
 
