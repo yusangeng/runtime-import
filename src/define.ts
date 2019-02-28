@@ -8,6 +8,7 @@ import { CacheItem, CacheStatus } from './cache'
 
 const win = <any>window
 const { define } = win
+const { keys } = Object
 
 if (typeof define !== 'undefined' && !define.runtime_import) {
   throw new Error(`runtime-import should NOT be used with requiesjs or seajs or any other AMD/CMD loader.`)
@@ -16,8 +17,16 @@ if (typeof define !== 'undefined' && !define.runtime_import) {
 // 脚本加载队列
 const itemQueue: Array<CacheItem> = []
 
+type FUMDDefine = {
+  (...args: Array<any>): void
+  n: number
+  amd: boolean
+  cmd: boolean
+  runtime_import: boolean
+}
+
 // 模拟AMD, 注意只能用来加载UMD格式的js
-const umdDefine: any = function define (...args: Array<any>) : void {
+const umdDefine: FUMDDefine = function define (...args: Array<any>) : void {
   let factory = args[args.length - 1]
   const item = itemQueue.shift()
 
@@ -26,7 +35,11 @@ const umdDefine: any = function define (...args: Array<any>) : void {
   }
 
   try {
-    item.exportThing = factory()
+    const exportThing = item.exportThing = factory()
+
+    if (exportThing && keys(exportThing).length === 1 && exportThing.default) {
+      item.exportThing = exportThing.default
+    }
   } catch (err) {
     item.status = CacheStatus.ERROR
     item.error = err
