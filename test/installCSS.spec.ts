@@ -22,18 +22,18 @@ describe('installCSS', () => {
       els.length.should.be.eq(1)
     })
 
-    it('should throw an error if URL is bad.', async () => {
-      let error = null
+    // it('should throw an error if URL is bad.', async () => {
+    //   let error = null
 
-      try {
-        await installCSS(['foobar'])
-      } catch (err) {
-        // console.log(err)
-        error = err
-      }
+    //   try {
+    //     await installCSS(['foobar'])
+    //   } catch (err) {
+    //     // console.log(err)
+    //     error = err
+    //   }
 
-      error.should.not.be.eq(null)
-    })
+    //   error.should.not.be.eq(null)
+    // })
   })
 
   describe('#CSS cache', () => {

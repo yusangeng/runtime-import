@@ -35,7 +35,7 @@ const umdDefine: FUMDDefine = function define (...args: Array<any>) : void {
   }
 
   try {
-    let externals = args[0]
+    let externals = args[0] || []
     let name = null
 
     if (typeof externals === 'string') {
