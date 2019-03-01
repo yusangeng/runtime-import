@@ -35,10 +35,21 @@ const umdDefine: FUMDDefine = function define (...args: Array<any>) : void {
   }
 
   try {
-    const externals = args.shift() || []
+    let externals = args[0]
+    let name = null
+
+    if (typeof externals === 'string') {
+      name = externals
+      externals = args[1] || []
+    }
+
     const exportThing = item.exportThing = factory(...externals.map((el: string) => {
       return win[el]
     }))
+
+    if (name) {
+      win[name] = exportThing
+    }
 
     if (exportThing && keys(exportThing).length === 1 && exportThing.default) {
       item.exportThing = exportThing.default
