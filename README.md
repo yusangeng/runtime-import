@@ -1,16 +1,16 @@
-# runtime-import | 前端资源运行时加载器
+# runtime-import
 
 [![TypeScript](https://img.shields.io/badge/lang-typescript-blue.svg)](https://www.tslang.cn/) [![Build Status](https://travis-ci.org/yusangeng/runtime-import.svg?branch=master)](https://travis-ci.org/yusangeng/runtime-import) [![Npm Package](https://badge.fury.io/js/runtime-import.svg)](https://www.npmjs.com/package/runtime-import) [![Downloads](https://img.shields.io/npm/dw/runtime-import.svg?style=flat)](https://www.npmjs.com/package/runtime-import)
 
-A runtime loader to help you to import resource(js or css) from CDN or any website asynchronously.
+Import resource(js or css) from any URL asynchronously.
 
-##  Install | 安装
+##  Install
 
 ``` shell
 npm i runtime-import --save
 ```
 
-## Usage | 使用
+## Usage
 
 ### importScript
 
@@ -40,7 +40,6 @@ try {
 }
 ```
 
-
 ### importModule
 
 Import a module, if the last javascript file is in UMD format, return it's export object.
@@ -49,7 +48,7 @@ Import a module, if the last javascript file is in UMD format, return it's expor
 import { importModule } from 'runtime-import'
 
 try {
-  const bootstrap = await importScript({
+  const bootstrap = await importModule({
     js: ['//foobar.com/bootstrap.js'],
     css: ['//foobar.com/bootstrap.css']
   })
