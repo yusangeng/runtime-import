@@ -38,18 +38,29 @@ function doInstallAJS(item: CacheItem, url: string, umd: boolean) : Promise<any>
       pushItem(item)
     }
 
-    el.addEventListener('load', () => {
-      item.status = CacheStatus.LOADED
-      resolve(item.exportThing)
-    })
+    const loadCallback = () => {
+      el.removeEventListener('load', loadCallback)
 
-    el.addEventListener('error', evt => {
+      item.status = CacheStatus.LOADED
+      item.el = null
+
+      resolve(item.exportThing)
+    }
+
+    const errorCallback = (evt: ErrorEvent) => {
+      el.removeEventListener('error', errorCallback)
+
       const error = evt.error || new Error(`Load javascript failed. src=${url}`)
 
       item.status = CacheStatus.ERROR
       item.error = error
+      item.el = null
+
       reject(error)
-    })
+    }
+
+    el.addEventListener('load', loadCallback)
+    el.addEventListener('error', errorCallback)
 
     item.el = el
     document.body.appendChild(el)
@@ -72,13 +83,18 @@ function installAJS (url: string, umd: boolean) : Promise<any> {
     const { el } = item
 
     return new Promise((resolve, reject) => {
-      el!.addEventListener('load', () => {
+      const loadCallback = () => {
+        el!.removeEventListener('load', loadCallback)
         resolve(item.exportThing)
-      })
+      }
 
-      el!.addEventListener('error', evt => {
+      const errorCallback = (evt: ErrorEvent) => {
+        el!.removeEventListener('error', errorCallback)
         reject(evt.error)
-      })
+      }
+
+      el!.addEventListener('load', loadCallback)
+      el!.addEventListener('error', errorCallback)
     })
   }
 

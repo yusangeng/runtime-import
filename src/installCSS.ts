@@ -21,13 +21,17 @@ function installACSS (url: string) : Promise<void> {
   if (status === CacheStatus.LOADING) {
     return new Promise((resolve, reject) => {
       const { el } = item
-      el!.addEventListener('load', () => {
+      const loadCallback = () => {
+        el!.removeEventListener('load', loadCallback)
         resolve()
-      })
-
-      el!.addEventListener('error', evt => {
+      }
+      const errorCallback = (evt: ErrorEvent) => {
+        el!.removeEventListener('error', errorCallback)
         reject(evt.error)
-      })
+      }
+
+      el!.addEventListener('load', loadCallback)
+      el!.addEventListener('error', errorCallback)
     })
   }
 
@@ -39,18 +43,28 @@ function installACSS (url: string) : Promise<void> {
     el.rel = 'stylesheet'
     el.href = url
 
-    el.addEventListener('load', () => {
+    const loadCallback = () => {
+      el.removeEventListener('load', loadCallback)
+      
       item.status = CacheStatus.LOADED
+      item.el = null
       resolve()
-    })
+    }
 
-    el.addEventListener('error', evt => {
+    const errorCallback = (evt: ErrorEvent) => {
+      el!.removeEventListener('error', errorCallback)
+
       const error = evt.error || new Error(`Load css failed. href=${url}`)
 
       item.status = CacheStatus.ERROR
       item.error = error
+      item.el = null
+      
       reject(error)
-    })
+    }
+
+    el.addEventListener('load', loadCallback)
+    el.addEventListener('error', errorCallback)
 
     item.el = el
     document.head.appendChild(el)
