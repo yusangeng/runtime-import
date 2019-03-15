@@ -13,8 +13,9 @@ import installJS from './installJS'
  * @interface ModuleInfo
  */
 interface ModuleInfo {
-  js: Array<string>,
+  js: Array<string>
   css: Array<string>
+  umd?: boolean
 }
 
 /**
@@ -27,10 +28,12 @@ interface ModuleInfo {
  * @returns {Promise<any>}
  */
 export async function importModule (module: ModuleInfo) : Promise<any> {
-  const { js, css } = module
+  const { js, css, umd } = module
 
   await installCSS(css)
-  const ret = await installJS(js)
+  const ret = await installJS(js, {
+    umd: typeof umd === 'undefined' ? true : umd
+  })
 
   return ret
 }
