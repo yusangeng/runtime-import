@@ -1,6 +1,6 @@
 {
   "name": "runtime-import",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Import resource(js or css) from any URL asynchronously.",
   "main": "lib/index.js",
   "types": "lib/",
