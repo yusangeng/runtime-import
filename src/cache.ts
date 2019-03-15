@@ -24,16 +24,16 @@ class Cache {
   item (key: string) : CacheItem {
     let ret = this.items[key]
 
-    if (!ret) {
-      const ret = this.items[key] = {
-        status: CacheStatus.NONE,
-        exportThing: void 0,
-        el: null,
-        error: null,
-        reject: null
-      }
-
+    if (ret) {
       return ret
+    }
+
+    ret = this.items[key] = {
+      status: CacheStatus.NONE,
+      exportThing: void 0,
+      el: null,
+      error: null,
+      reject: null
     }
 
     return ret
