@@ -86,7 +86,7 @@ function dec () : void {
   }
 }
 
-export default function pushItem (item: CacheItem) {
+export default function pushItem (item: CacheItem) : void {
   itemQueue.push(item)
   inc()
 }
