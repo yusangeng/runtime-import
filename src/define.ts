@@ -1,6 +1,6 @@
 /**
  * 全局define函数
- * 
+ *
  * @author Y3G
  */
 
@@ -10,8 +10,11 @@ const win = <any>window
 const { define } = win
 const { keys } = Object
 
+let hasOtherAMDLoader = false
+
 if (typeof define !== 'undefined' && !define.runtime_import) {
-  throw new Error(`runtime-import should NOT be used with requiesjs or seajs or any other AMD/CMD loader.`)
+  console.warn(`runtime-import should NOT be used with requiesjs or seajs or any other AMD/CMD loader.`)
+  hasOtherAMDLoader = true
 }
 
 // 脚本加载队列
@@ -26,7 +29,7 @@ type FUMDDefine = {
 }
 
 // 模拟AMD, 注意只能用来加载UMD格式的js
-const umdDefine: FUMDDefine = function define (...args: Array<any>) : void {
+const umdDefine: FUMDDefine = function define(...args: Array<any>): void {
   let factory = args.pop()
   const item = itemQueue.shift()
 
@@ -43,9 +46,11 @@ const umdDefine: FUMDDefine = function define (...args: Array<any>) : void {
       externals = args[1] || []
     }
 
-    const exportThing = item.exportThing = factory(...externals.map((el: string) => {
-      return win[el]
-    }))
+    const exportThing = (item.exportThing = factory(
+      ...externals.map((el: string) => {
+        return win[el]
+      })
+    ))
 
     if (name) {
       win[name] = exportThing
@@ -68,7 +73,7 @@ umdDefine.amd = true
 umdDefine.cmd = true
 umdDefine.runtime_import = true
 
-function inc () : void {
+function inc(): void {
   umdDefine.n += 1
 
   if (umdDefine.n === 1) {
@@ -76,7 +81,7 @@ function inc () : void {
   }
 }
 
-function dec () : void {
+function dec(): void {
   umdDefine.n -= 1
 
   if (umdDefine.n === 0) {
@@ -86,7 +91,11 @@ function dec () : void {
   }
 }
 
-export default function pushItem (item: CacheItem) : void {
+export default function pushItem(item: CacheItem): void {
+  if (hasOtherAMDLoader) {
+    throw new Error(`runtime-import UMD mode uses window.define, your should NOT have your own window.define.`)
+  }
+
   itemQueue.push(item)
   inc()
 }
