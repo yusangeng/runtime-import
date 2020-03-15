@@ -20,14 +20,14 @@ interface ModuleInfo {
 
 /**
  * 加载一个完整模块.
- * 
+ *
  * module中最后一个js会以模拟的AMD格式加载, 如果要导出接口, 最后一个js请使用UMD格式.
  *
  * @export
  * @param {ModuleInfo} module 模块信息
  * @returns {Promise<any>}
  */
-export async function importModule (module: ModuleInfo) : Promise<any> {
+export async function importModule(module: ModuleInfo): Promise<any> {
   const { js, css, umd } = module
 
   await installCSS(css)
@@ -50,8 +50,8 @@ type ImportScriptOptions = {
  * @param {ImportScriptOptions} [options={ umd: true }] 配置项
  * @returns {Promise<any>}
  */
-export async function importScript (url: string, options: ImportScriptOptions = { umd: true }) : Promise<any> {
-  const ret = await importModule({ js: [url], css: [] })
+export async function importScript(url: string, options: ImportScriptOptions = { umd: true }): Promise<any> {
+  const ret = await importModule({ js: [url], css: [], umd: options.umd })
   return ret
 }
 
@@ -62,7 +62,7 @@ export async function importScript (url: string, options: ImportScriptOptions = 
  * @param {string} url css地址
  * @returns {Promise<any>}
  */
-export async function importStyle (url: string) : Promise<void> {
+export async function importStyle(url: string): Promise<void> {
   const ret = await importModule({ css: [url], js: [] })
   return ret
 }
