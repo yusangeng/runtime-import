@@ -1,13 +1,14 @@
 /**
  * 加载JS
- * 
+ *
  * @author Y3G
  */
 
-import cache, { CacheStatus, CacheItem } from './cache'
-import pushItem from './define'
+import { CacheStatus } from '../cache/cache'
+import cache, { JSCacheItem } from '../cache/js'
+import addItem from './define'
 
-function doPrivateJob (url: string) : void {
+function compactAlibabaVCOldVersion(url: string): void {
   // patch: vc4.5.8+依赖g_config中的appkey
   const re = /legao-comp\/(.*)\/[\d.]+\/web.js$/
   const match = re.exec(url)
@@ -20,22 +21,30 @@ function doPrivateJob (url: string) : void {
   }
 }
 
-function doInstallAJS(item: CacheItem, url: string, umd: boolean) : Promise<any> {
+type InstallAJSOption = {
+  umd: boolean
+  crossOrigin: string
+}
+
+function doInstallAJS(item: JSCacheItem, url: string, options: InstallAJSOption): Promise<any> {
   item.status = CacheStatus.LOADING
-  doPrivateJob(url)
+  compactAlibabaVCOldVersion(url)
+
+  const { umd, crossOrigin } = options
 
   return new Promise((resolve, reject) => {
     const el = document.createElement('script')
 
     el.src = url
-    el.async = false // 保持时序
-    el.crossOrigin = 'anonymous' // 避免window.onerror拿不到脚本的报错
-    
+    // 保持时序
+    el.async = false
+    el.crossOrigin = crossOrigin
+
     if (umd) {
       // 用于define函数发生错误时调用, 详见define.ts
       item.reject = reject
       // 插入加载队列, 详见define.ts
-      pushItem(item)
+      addItem(url, item)
     }
 
     const loadCallback = () => {
@@ -67,8 +76,8 @@ function doInstallAJS(item: CacheItem, url: string, umd: boolean) : Promise<any>
   })
 }
 
-function installAJS (url: string, umd: boolean) : Promise<any> {
-  const item = cache.item(url)
+function installAJS(url: string, options: InstallAJSOption): Promise<any> {
+  const item = cache.getOrCreateItemByURL(url)
   const { status, exportThing, error } = item
 
   if (status === CacheStatus.LOADED) {
@@ -98,22 +107,31 @@ function installAJS (url: string, umd: boolean) : Promise<any> {
     })
   }
 
-  return doInstallAJS(item, url, umd)
+  return doInstallAJS(item, url, options)
 }
 
 type InstallJSOption = {
-  umd: boolean
+  umd?: boolean
+  crossOrigin?: string
 }
 
-export default function installJS (urls: Array<string>, options: InstallJSOption = { umd: true }) : Promise<any> {
+const defaultInstallOptions = {
+  umd: true,
+  // 避免window.onerror拿不到脚本的报错, 需要服务器支持
+  crossOrigin: 'anonymous'
+}
+
+export function installJS(urls: Array<string>, options: InstallJSOption): Promise<any> {
+  const opt = { ...defaultInstallOptions, ...options }
+
   let chain = Promise.resolve()
   const lastIndex = urls.length - 1
-  const { umd } = options
+  const { umd } = opt
 
   urls.forEach((url, index) => {
     // 只有最后一个js使用umd模式加载
-    const useUmd = umd && (index === lastIndex)
-    chain = chain.then(_ => installAJS(url, useUmd))
+    const useUmd = umd && index === lastIndex
+    chain = chain.then(_ => installAJS(url, { ...opt, umd: useUmd }))
   })
 
   return chain

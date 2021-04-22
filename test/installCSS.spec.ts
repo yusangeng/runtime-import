@@ -1,12 +1,12 @@
 /* global describe it */
 import sleep from 'sleep-promise'
-import installCSS from '../src/installCSS'
+import { installCSS } from '../src/installer/css'
 
 const url = '//unpkg.com/bootstrap@4.2.1/dist/css/bootstrap.css'
 
 /* eslint no-undef: 0 */
 
-function loose<T> (value: T) {
+function loose<T>(value: T) {
   return value as any
 }
 

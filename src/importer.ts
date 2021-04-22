@@ -4,8 +4,8 @@
  * @author Y3G
  */
 
-import installCSS from './installCSS'
-import installJS from './installJS'
+import { installCSS } from './installer/css'
+import { installJS } from './installer/js'
 
 /**
  * 模块资源信息.
@@ -16,6 +16,7 @@ interface ModuleInfo {
   js: Array<string>
   css: Array<string>
   umd?: boolean
+  crossOrigin?: string
 }
 
 /**
@@ -28,18 +29,25 @@ interface ModuleInfo {
  * @returns {Promise<any>}
  */
 export async function importModule(module: ModuleInfo): Promise<any> {
-  const { js, css, umd } = module
+  const { js, css, umd, crossOrigin } = module
 
   await installCSS(css)
   const ret = await installJS(js, {
-    umd: typeof umd === 'undefined' ? true : umd
+    umd: typeof umd === 'undefined' ? true : umd,
+    crossOrigin: typeof crossOrigin === 'undefined' ? 'anonymous' : crossOrigin
   })
 
   return ret
 }
 
 type ImportScriptOptions = {
-  umd: boolean
+  umd?: boolean
+  crossOrigin?: string
+}
+
+const defaultImportScriptOptions = {
+  umd: true,
+  crossOrigin: 'anonymous'
 }
 
 /**
@@ -50,8 +58,12 @@ type ImportScriptOptions = {
  * @param {ImportScriptOptions} [options={ umd: true }] 配置项
  * @returns {Promise<any>}
  */
-export async function importScript(url: string, options: ImportScriptOptions = { umd: true }): Promise<any> {
-  const ret = await importModule({ js: [url], css: [], umd: options.umd })
+export async function importScript(
+  url: string,
+  options: ImportScriptOptions = defaultImportScriptOptions
+): Promise<any> {
+  const opt = { ...defaultImportScriptOptions, ...options }
+  const ret = await importModule({ js: [url], css: [], ...opt })
   return ret
 }
 

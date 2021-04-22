@@ -1,20 +1,20 @@
 /* global describe it */
 import sleep from 'sleep-promise'
-import installJS from '../src/installJS'
+import { installJS } from '../src/installer/js'
 
 const reactURL = '//unpkg.com/react@16.7.0/umd/react.production.min.js'
 const jqueryURL = '//unpkg.com/jquery@3.3.1/dist/jquery.js'
 
 /* eslint no-undef: 0 */
 
-function loose<T> (value: T) {
+function loose<T>(value: T) {
   return value as any
 }
 
 describe('installJS', () => {
   describe('#installJS', () => {
     it('should install react properly.', async () => {
-      const React = await installJS([reactURL])
+      const React = await installJS([reactURL], {})
 
       const t = typeof React.Component
       t.should.eq('function')
@@ -36,7 +36,7 @@ describe('installJS', () => {
 
   describe('#JS cache', () => {
     it('should return cached value if js has been loaded.', async () => {
-      const React = await installJS([reactURL])
+      const React = await installJS([reactURL], {})
 
       const t = typeof React.Component
       t.should.eq('function')
@@ -49,8 +49,8 @@ describe('installJS', () => {
     })
 
     it('should return cached value if js is being loaded.', async () => {
-      installJS([jqueryURL])
-      installJS([jqueryURL])
+      installJS([jqueryURL], {})
+      installJS([jqueryURL], {})
 
       await sleep(500)
 

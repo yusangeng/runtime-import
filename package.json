@@ -1,6 +1,6 @@
 {
   "name": "runtime-import",
-  "version": "1.0.12",
+  "version": "2.0.0",
   "description": "Import resource(js or css) from any URL asynchronously.",
   "main": "lib/index.js",
   "types": "lib/",
@@ -46,6 +46,6 @@
     "webpack": "^4.29.0"
   },
   "dependencies": {
-    "tslib": "^1.9.3"
+    "tslib": "^2.0.0"
   }
 }
