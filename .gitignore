@@ -61,6 +61,7 @@ typings/
 .next
 
 package-lock.json
+yarn.lock
 .DS_Store
 lib
 .package
