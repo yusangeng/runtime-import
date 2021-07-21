@@ -1,7 +1,7 @@
 /**
  * 加载JS
  *
- * @author Y3G
+ * @author yusangeng@outlook.com
  */
 
 import { CacheStatus } from '../cache/cache'

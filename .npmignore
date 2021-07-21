@@ -1,2 +1,9 @@
 node_modules
 coverage
+src
+.vscode
+.prettierrc
+.travis.yml
+karma.conf.js
+tsconfig.json
+.gitignore

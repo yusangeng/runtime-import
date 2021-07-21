@@ -1,7 +1,7 @@
 /**
  * 加载
  *
- * @author Y3G
+ * @author yusangeng@outlook.com
  */
 
 import { installCSS } from './installer/css'

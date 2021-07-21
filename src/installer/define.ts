@@ -1,13 +1,14 @@
 /**
  * 全局define函数
  *
- * @author Y3G
+ * @author yusangeng@outlook.com
  */
 
 import { CacheStatus } from '../cache/cache'
 import { JSCacheItem } from '../cache/js'
+import { getInstance } from '../singleton'
 
-const win = <any>window
+const win = window as any
 const { define } = win
 const { keys } = Object
 
@@ -18,7 +19,7 @@ if (typeof define !== 'undefined' && !define.runtime_import) {
   hasOtherAMDLoader = true
 }
 
-const pendingItemMap: Record<string, JSCacheItem | null> = {}
+const pendingItemMap = getInstance<Record<string, JSCacheItem | null>>('pendingItemMap', () => ({}))
 
 type FUMDDefine = {
   (...args: Array<any>): void

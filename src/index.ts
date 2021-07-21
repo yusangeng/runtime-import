@@ -1,7 +1,7 @@
 /**
  * 入口文件
  *
- * @author Y3G
+ * @author yusangeng@outlook.com
  */
 
 import importer, { importModule, importScript, importStyle } from './importer'

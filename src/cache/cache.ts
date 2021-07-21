@@ -1,7 +1,7 @@
 /**
  * 缓存
  *
- * @author Y3G
+ * @author yusangeng@outlook.com
  */
 
 type FReject = (reason?: any) => void

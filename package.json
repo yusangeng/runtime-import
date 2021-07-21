@@ -1,6 +1,6 @@
 {
   "name": "runtime-import",
-  "version": "2.0.0",
+  "version": "2.0.3",
   "description": "Import resource(js or css) from any URL asynchronously.",
   "main": "lib/index.js",
   "types": "lib/",
@@ -9,7 +9,7 @@
     "test": "cross-env BROWSER=Chrome karma start karma.conf.js",
     "test-jsdom": "cross-env BROWSER=jsdom karma start karma.conf.js --singleRun=true",
     "es5": "rm -rf ./lib && tsc -p tsconfig.json",
-    "prepublish": "npm run test-jsdom && npm run es5",
+    "prepublishOnly": "npm run test-jsdom && npm run es5",
     "ci": "npm run test-jsdom"
   },
   "repository": {

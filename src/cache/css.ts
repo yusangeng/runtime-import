@@ -1,25 +1,26 @@
 /**
  * css缓存
  *
- * @author Y3G
+ * @author yusangeng@outlook.com
  */
 
 import { Cache, CacheItem, CacheStatus } from './cache'
+import { getInstance } from '../singleton'
 
 export interface CSSCacheItem extends CacheItem {
   el: HTMLLinkElement | null
 }
 
-const cache = new Cache<CSSCacheItem>((key: string) => {
-  return {
-    url: key,
-    status: CacheStatus.NONE,
-    el: null,
-    error: null,
-    reject: null
-  }
+const cssCache = getInstance('cssCache', () => {
+  return new Cache<CSSCacheItem>((key: string) => {
+    return {
+      url: key,
+      status: CacheStatus.NONE,
+      el: null,
+      error: null,
+      reject: null
+    }
+  })
 })
 
-//;(window as any).csscache = cache
-
-export default cache
+export default cssCache
