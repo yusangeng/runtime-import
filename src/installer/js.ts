@@ -43,8 +43,11 @@ function doInstallAJS(item: JSCacheItem, url: string, options: InstallAJSOption)
     if (umd) {
       // 用于define函数发生错误时调用, 详见define.ts
       item.reject = reject
+
+      // 以//开头的地址以及相对地址, 传给el.src后会被补全
+      const realURL = el.src
       // 插入加载队列, 详见define.ts
-      addItem(url, item)
+      addItem(realURL, item)
     }
 
     const loadCallback = () => {

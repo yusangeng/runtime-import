@@ -41,17 +41,7 @@ const umdDefine: FUMDDefine = function define(...args: Array<any>): void {
   let item = pendingItemMap[src]
 
   if (!item) {
-    src = src.replace(new RegExp(`^${window.location.protocol}`), '')
-    item = pendingItemMap[src]
-
-    if (!item) {
-      src = src.replace(new RegExp(`^${window.location.origin}`), '')
-      item = pendingItemMap[src]
-
-      if (!item) {
-        throw new Error(`Can NOT find item, src=${src}`)
-      }
-    }
+    throw new Error(`Can NOT find item, src=${src}`)
   }
 
   pendingItemMap[src] = null
