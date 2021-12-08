@@ -25,14 +25,12 @@ module.exports = function (config) {
     ],
 
     // list of files / patterns to exclude
-    exclude: [
-      'karma.conf.js'
-    ],
+    exclude: ['karma.conf.js'],
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'test/**/*.spec.ts': ['webpack']
+      'test/**/*.spec.ts': ['webpack', 'coverage']
     },
 
     // karma 插件
@@ -40,17 +38,17 @@ module.exports = function (config) {
       'karma-webpack',
       'karma-mocha',
       `karma-${BROWSER.toLowerCase()}-launcher`,
-      'karma-chai'
+      'karma-chai',
+      'karma-coverage'
     ],
 
     webpack: {
+      mode: 'development',
       module: {
         rules: [
           {
             test: /\.[jt]sx?$/,
-            use: [
-              'ts-loader'
-            ],
+            use: ['ts-loader'],
             exclude: /node_modules/
           }
         ]
@@ -63,7 +61,12 @@ module.exports = function (config) {
     // test results reporter to use
     // possible values: "dots", "progress"
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['dots'],
+    reporters: ['progress', 'coverage'],
+
+    coverageReporter: {
+      type: 'html',
+      dir: 'coverage/'
+    },
 
     // web server port
     port: 9876,

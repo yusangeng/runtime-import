@@ -131,7 +131,7 @@ export function installJS(urls: Array<string>, options: InstallJSOption): Promis
   urls.forEach((url, index) => {
     // 只有最后一个js使用umd模式加载
     const useUmd = umd && index === lastIndex
-    chain = chain.then(_ => installAJS(url, { ...opt, umd: useUmd }))
+    chain = chain.then(() => installAJS(url, { ...opt, umd: useUmd }))
   })
 
   return chain

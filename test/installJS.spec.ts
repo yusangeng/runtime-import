@@ -18,7 +18,7 @@ describe('installJS', () => {
 
       const t = typeof React.Component
       t.should.eq('function')
-    })
+    }).timeout(10000)
 
     // it('should throw an error if URL is bad.', async () => {
     //   let error = null
@@ -46,7 +46,7 @@ describe('installJS', () => {
       })
 
       els.length.should.be.eq(1)
-    })
+    }).timeout(10000)
 
     it('should return cached value if js is being loaded.', async () => {
       installJS([jqueryURL], {})
@@ -59,6 +59,6 @@ describe('installJS', () => {
       })
 
       els.length.should.be.eq(1)
-    })
+    }).timeout(10000)
   })
 })

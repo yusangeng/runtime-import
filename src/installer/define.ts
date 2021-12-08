@@ -15,7 +15,7 @@ const { keys } = Object
 let hasOtherAMDLoader = false
 
 if (typeof define !== 'undefined' && !define.runtime_import) {
-  console.warn(`runtime-import should NOT be used with requiesjs or seajs or any other AMD/CMD loader.`)
+  console.warn(`runtime-import should NOT coexist with requiesjs or seajs or any other AMD/CMD loader.`)
   hasOtherAMDLoader = true
 }
 
@@ -75,7 +75,9 @@ const umdDefine: FUMDDefine = function define(...args: Array<any>): void {
     }
   } catch (err) {
     item.status = CacheStatus.ERROR
-    item.error = err
+    if (err instanceof Error) {
+      item.error = err
+    }
     item.reject!(err)
   }
 }

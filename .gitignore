@@ -60,9 +60,10 @@ typings/
 # next.js build output
 .next
 
-package-lock.json
 yarn.lock
 .DS_Store
 lib
 .package
 doc
+esm
+cjs

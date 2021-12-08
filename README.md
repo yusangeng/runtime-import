@@ -1,12 +1,12 @@
 # runtime-import
 
-[![TypeScript](https://img.shields.io/badge/lang-typescript-blue.svg)](https://www.tslang.cn/) [![Build Status](https://travis-ci.org/yusangeng/runtime-import.svg?branch=master)](https://travis-ci.org/yusangeng/runtime-import) [![Npm Package](https://badge.fury.io/js/runtime-import.svg)](https://www.npmjs.com/package/runtime-import) [![Downloads](https://img.shields.io/npm/dw/runtime-import.svg?style=flat)](https://www.npmjs.com/package/runtime-import)
+[![TypeScript](https://img.shields.io/badge/lang-typescript-blue.svg)](https://www.tslang.cn/) [![Build Status](https://github.com/yusangeng/runtime-import/workflows/test/badge.svg)](https://github.com/yusangeng/runtime-import/actions?query=workflow%3Atest) [![Npm Package](https://badge.fury.io/js/runtime-import.svg)](https://www.npmjs.com/package/runtime-import) [![Downloads](https://img.shields.io/npm/dw/runtime-import.svg?style=flat)](https://www.npmjs.com/package/runtime-import)
 
-Import resource(js or css) from any URL asynchronously.
+Import remote resource(js or css) asynchronously.
 
-##  Install
+## Install
 
-``` shell
+```shell
 npm i runtime-import --save
 ```
 
@@ -16,7 +16,7 @@ npm i runtime-import --save
 
 Import a javascript file, if the file is in UMD format, return it's export object.
 
-``` js
+```js
 import { importScript } from 'runtime-import'
 
 try {
@@ -30,7 +30,7 @@ try {
 
 Import a css file.
 
-``` js
+```js
 import { importStyle } from 'runtime-import'
 
 try {
@@ -44,7 +44,7 @@ try {
 
 Import a module, if the last javascript file is in UMD format, return it's export object.
 
-``` js
+```js
 import { importModule } from 'runtime-import'
 
 try {

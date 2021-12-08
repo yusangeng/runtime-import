@@ -1,16 +1,20 @@
 {
   "name": "runtime-import",
   "version": "2.0.3",
-  "description": "Import resource(js or css) from any URL asynchronously.",
-  "main": "lib/index.js",
-  "types": "lib/",
-  "type-chack": "tsc",
+  "description": "Import remote resource(js or css) asynchronously.",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "types": "types/index.d.ts",
   "scripts": {
-    "test": "cross-env BROWSER=Chrome karma start karma.conf.js",
+    "lint": "eslint --fix ./src && prettier --write ./src",
+    "test": "cross-env BROWSER=Edge karma start karma.conf.js",
     "test-jsdom": "cross-env BROWSER=jsdom karma start karma.conf.js --singleRun=true",
-    "es5": "rm -rf ./lib && tsc -p tsconfig.json",
-    "prepublishOnly": "npm run test-jsdom && npm run es5",
-    "ci": "npm run test-jsdom"
+    "coverage": "nyc report --reporter=lcov",
+    "esm": "rm -rf ./esm && rm -rf types && tsc -p tsconfig.esm.json",
+    "cjs": "rm -rf ./cjs && tsc -p tsconfig.cjs.json",
+    "build": "npm run esm && npm run cjs",
+    "prepublishOnly": "npm run test-jsdom && npm run build",
+    "ci": "npm run lint && npm run build && npm run test-jsdom && npm run coverage"
   },
   "repository": {
     "type": "git",
@@ -21,31 +25,44 @@
     "runtime-import",
     "loader"
   ],
-  "author": "Y3G",
+  "author": {
+    "name": "yusangeng",
+    "email": "yusangeng@outlook.com"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/yusangeng/runtime-import/issues"
   },
-  "homepage": "https://github.com/yusangeng/runtime-import#readme",
+  "homepage": "https://www.npmjs.com/package/runtime-import",
   "devDependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.5",
-    "chai": "^4.2.0",
-    "cross-env": "^5.2.0",
-    "jsdom": "^13.2.0",
-    "karma": "^4.0.0",
+    "@types/chai": "^4.3.0",
+    "@types/mocha": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.6.0",
+    "@typescript-eslint/parser": "^5.6.0",
+    "chai": "^4.3.4",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.4.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jsdom": "^19.0.0",
+    "karma": "^6.3.9",
     "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-jsdom-launcher": "^7.0.0",
-    "karma-mocha": "^1.3.0",
-    "karma-webpack": "^3.0.5",
-    "mocha": "^5.2.0",
-    "sleep-promise": "^8.0.1",
-    "ts-loader": "^5.3.3",
-    "typescript": "^3.2.4",
-    "webpack": "^4.29.0"
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage": "^2.1.0",
+    "karma-edge-launcher": "^0.4.2",
+    "karma-jsdom-launcher": "^12.0.0",
+    "karma-mocha": "^2.0.1",
+    "karma-opera-launcher": "^1.0.0",
+    "karma-webpack": "^5.0.0",
+    "mocha": "^9.1.3",
+    "prettier": "^2.5.1",
+    "sleep-promise": "^9.1.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.5.2",
+    "webpack": "^5.65.0"
   },
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.3.1"
   }
 }
