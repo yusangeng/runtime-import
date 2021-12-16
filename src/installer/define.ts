@@ -75,10 +75,31 @@ const umdDefine: FUMDDefine = function define(...args: Array<any>): void {
     }
     item.reject!(err)
   }
+} as FUMDDefine
+
+const amdGetter = () => {
+  const { currentScript } = document
+
+  if (currentScript) {
+    let { src } = currentScript as HTMLScriptElement
+    let item = pendingItemMap[src]
+
+    if (item) {
+      return true
+    }
+  }
+
+  return false
 }
 
-umdDefine.amd = true
-umdDefine.cmd = true
+Object.defineProperty(umdDefine, 'amd', {
+  get: amdGetter
+})
+
+Object.defineProperty(umdDefine, 'cmd', {
+  get: amdGetter
+})
+
 umdDefine.runtime_import = true
 
 export default function addItem(src: string, item: JSCacheItem): void {
