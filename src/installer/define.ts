@@ -77,7 +77,7 @@ const umdDefine: FUMDDefine = function define(...args: Array<any>): void {
   }
 } as FUMDDefine
 
-const amdGetter = () => {
+const amdFlagCheater = () => {
   const { currentScript } = document
 
   if (currentScript) {
@@ -92,19 +92,18 @@ const amdGetter = () => {
   return false
 }
 
-Object.defineProperty(umdDefine, 'amd', {
-  get: amdGetter
+;['amd', 'cmd'].forEach(el => {
+  Object.defineProperty(umdDefine, el, {
+    get: amdFlagCheater
+  })
 })
 
-Object.defineProperty(umdDefine, 'cmd', {
-  get: amdGetter
-})
-
+// private flag
 umdDefine.runtime_import = true
 
 export default function addItem(src: string, item: JSCacheItem): void {
   if (hasOtherAMDLoader) {
-    throw new Error(`runtime-import UMD mode uses window.define, your should NOT have your own window.define.`)
+    throw new Error(`runtime-import UMD mode uses window.define, you should NOT have your own window.define.`)
   }
 
   if (!win.define) {
