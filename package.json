@@ -1,6 +1,6 @@
 {
   "name": "runtime-import",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "Import remote resource(js or css) asynchronously.",
   "main": "cjs/index.js",
   "module": "esm/index.js",
