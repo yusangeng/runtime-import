@@ -3,6 +3,7 @@ import sleep from 'sleep-promise'
 import { installJS } from '../src/installer/js'
 
 const reactURL = '//unpkg.com/react@16.7.0/umd/react.production.min.js'
+const lodashURL = '//cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js'
 const jqueryURL = '//unpkg.com/jquery@3.3.1/dist/jquery.js'
 
 /* eslint no-undef: 0 */
@@ -59,6 +60,23 @@ describe('installJS', () => {
       })
 
       els.length.should.be.eq(1)
+    }).timeout(10000)
+  })
+
+  describe('#amdFlagCheater', () => {
+    it('should ignore lodash umd entry properly.', async () => {
+      const el = document.createElement('script')
+
+      el.setAttribute('src', lodashURL)
+      el.setAttribute('async', 'false')
+
+      document.body.appendChild(el)
+
+      await sleep(2000)
+
+      const t = typeof (window as any)._
+
+      t.should.be.eq('function')
     }).timeout(10000)
   })
 })
