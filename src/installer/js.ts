@@ -8,19 +8,6 @@ import { CacheStatus } from '../cache/cache'
 import cache, { JSCacheItem } from '../cache/js'
 import addItem from './define'
 
-function compactAlibabaVCOldVersion(url: string): void {
-  // patch: vc4.5.8+依赖g_config中的appkey
-  const re = /legao-comp\/(.*)\/[\d.]+\/web.js$/
-  const match = re.exec(url)
-  const win = <any>window
-
-  if (match && match.length > 0) {
-    const appKey = match[1]
-    win.g_config = win.g_config || {}
-    win.g_config.appKey = appKey
-  }
-}
-
 type InstallAJSOption = {
   umd: boolean
   crossOrigin: string
@@ -28,7 +15,6 @@ type InstallAJSOption = {
 
 function doInstallAJS(item: JSCacheItem, url: string, options: InstallAJSOption): Promise<any> {
   item.status = CacheStatus.LOADING
-  compactAlibabaVCOldVersion(url)
 
   const { umd, crossOrigin } = options
 
