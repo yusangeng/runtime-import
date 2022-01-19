@@ -55,11 +55,28 @@ const umdDefine: FUMDDefine = function define(...args: Array<any>): void {
       externals = args[1] || []
     }
 
-    const exportThing = (item.exportThing = factory(
-      ...externals.map((el: string) => {
-        return win[el]
-      })
-    ))
+    const exportThing = (item.exportThing = (() => {
+      let useCurrentExports = false
+      const currentExports = {}
+
+      let ret = factory(
+        ...externals.map((el: string) => {
+          // exports会被直接用于写导出对象，如果传入undefined会导致报错
+          if (el === 'exports') {
+            useCurrentExports = true
+            return currentExports
+          }
+
+          return win[el]
+        })
+      )
+
+      if (!ret && useCurrentExports) {
+        ret = currentExports
+      }
+
+      return ret
+    })())
 
     if (name) {
       win[name] = exportThing
@@ -67,6 +84,7 @@ const umdDefine: FUMDDefine = function define(...args: Array<any>): void {
 
     if (exportThing && keys(exportThing).length === 1 && exportThing.default) {
       item.exportThing = exportThing.default
+      item.exportThing.default = exportThing.default
     }
   } catch (err) {
     item.status = CacheStatus.ERROR
