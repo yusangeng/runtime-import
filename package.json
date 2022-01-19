@@ -1,17 +1,11 @@
 {
   "name": "runtime-import",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Import remote resource(js or css) asynchronously.",
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "types": "types/index.d.ts",
   "type": "module",
-  "exports": {
-    ".": {
-      "import": "./esm/index.js",
-      "require": "./cjs/index.js"
-    }
-  },
   "scripts": {
     "lint": "eslint --fix ./src && prettier --write ./src",
     "test": "cross-env BROWSER=Edge karma start karma.conf.cjs",
