@@ -2,7 +2,7 @@
 import sleep from 'sleep-promise'
 import { installCSS } from '../src/installer/css'
 
-const url = '//unpkg.com/bootstrap@4.2.1/dist/css/bootstrap.css'
+const url = '//r.haier.net/assets/overlay/dts-fe/common-assets/bootstrap/4.2.1/bootstrap.css'
 
 /* eslint no-undef: 0 */
 

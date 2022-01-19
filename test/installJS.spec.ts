@@ -2,9 +2,9 @@
 import sleep from 'sleep-promise'
 import { installJS } from '../src/installer/js'
 
-const reactURL = '//unpkg.com/react@16.7.0/umd/react.production.min.js'
-const lodashURL = '//cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js'
-const jqueryURL = '//unpkg.com/jquery@3.3.1/dist/jquery.js'
+const reactURL = '//r.haier.net/assets/overlay/dts-fe/common-assets/react/16.13.1/react.development.js'
+const lodashURL = '//r.haier.net/assets/overlay/dts-fe/common-assets/lodash/4.17.21/lodash.min.js'
+const jqueryURL = '//r.haier.net/assets/overlay/dts-fe/common-assets/jquery/3.5.1/jquery.min.js'
 
 /* eslint no-undef: 0 */
 
