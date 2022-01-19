@@ -6,12 +6,6 @@
   "module": "esm/index.js",
   "types": "types/index.d.ts",
   "type": "module",
-  "exports": {
-    ".": {
-      "import": "./esm/index.js",
-      "require": "./cjs/index.js"
-    }
-  },
   "scripts": {
     "lint": "eslint --fix ./src && prettier --write ./src",
     "test": "cross-env BROWSER=Edge karma start karma.conf.cjs",
