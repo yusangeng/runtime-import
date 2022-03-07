@@ -8,28 +8,31 @@ import { installCSS } from './installer/css'
 import { installJS } from './installer/js'
 
 /**
- * 模块资源信息.
+ * 组件资源信息.
  *
- * @interface ModuleInfo
+ * @interface ImportComponentOptions
  */
-interface ModuleInfo {
+interface ImportComponentOptions {
+  // js文件列表
   js: Array<string>
+  // css文件列表
   css: Array<string>
+  // 是否以umd格式加载js文件
   umd?: boolean
   crossOrigin?: string
 }
 
 /**
- * 加载一个完整模块.
+ * 加载一个组件.
  *
- * module中最后一个js会以模拟的AMD格式加载, 如果要导出接口, 最后一个js请使用UMD格式.
+ * "组件"指的是,包含了js脚本和css样式的文件组合. 如果要导出组件接口, 请将最后一个js构建为UMD格式, 并导出组件接口. 同时将componentOptions.umd设为true
  *
  * @export
- * @param {ModuleInfo} module 模块信息
+ * @param {ImportComponentOptions} componentOptions 组件加载配置信息
  * @returns {Promise<any>}
  */
-export async function importModule(module: ModuleInfo): Promise<any> {
-  const { js, css, umd, crossOrigin } = module
+export async function importComponent(componentOptions: ImportComponentOptions): Promise<any> {
+  const { js, css, umd, crossOrigin } = componentOptions
 
   await installCSS(css)
   const ret = await installJS(js, {
@@ -63,7 +66,7 @@ export async function importScript(
   options: ImportScriptOptions = defaultImportScriptOptions
 ): Promise<any> {
   const opt = { ...defaultImportScriptOptions, ...options }
-  const ret = await importModule({ js: [url], css: [], ...opt })
+  const ret = await importComponent({ js: [url], css: [], ...opt })
   return ret
 }
 
@@ -75,8 +78,8 @@ export async function importScript(
  * @returns {Promise<any>}
  */
 export async function importStyle(url: string): Promise<void> {
-  const ret = await importModule({ css: [url], js: [] })
+  const ret = await importComponent({ css: [url], js: [] })
   return ret
 }
 
-export default { importModule, importScript, importStyle }
+export default { importComponent, importScript, importStyle }

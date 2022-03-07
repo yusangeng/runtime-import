@@ -12,7 +12,7 @@ function compactAlibabaVCOldVersion(url: string): void {
   // patch: vc4.5.8+依赖g_config中的appkey
   const re = /legao-comp\/(.*)\/[\d.]+\/web.js$/
   const match = re.exec(url)
-  const win = <any>window
+  const win = window as any
 
   if (match && match.length > 0) {
     const appKey = match[1]

@@ -4,8 +4,13 @@
  * @author yusangeng@outlook.com
  */
 
-import importer, { importModule, importScript, importStyle } from './importer'
+import importer, { importComponent, importScript, importStyle } from './importer'
 
-export { importModule, importScript, importStyle }
+/**
+ * @deprecated
+ */
+const importModule = importComponent
+
+export { importComponent, importModule, importScript, importStyle }
 
 export default importer

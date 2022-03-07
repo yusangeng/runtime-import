@@ -40,19 +40,32 @@ try {
 }
 ```
 
-### importModule
+### importComponent
 
-Import a module, if the last javascript file is in UMD format, return it's export object.
+Import a component. In umd mode, if the last javascript file is in UMD format, return it's export object.
+
+Options:
+
+- js: List of js files.
+- css: List of css files.
+- crossOrigin: value of attribute `crossorigin` of script tags created internally.
+- umd: Whether UMD mode is enabled.
 
 ```js
-import { importModule } from 'runtime-import'
+import { importComponent } from 'runtime-import'
 
 try {
-  const bootstrap = await importModule({
+  const bootstrap = await importComponent({
     js: ['//foobar.com/bootstrap.js'],
-    css: ['//foobar.com/bootstrap.css']
+    css: ['//foobar.com/bootstrap.css'],
+    crossOrigin: '',
+    umd: true
   })
 } catch (err) {
   console.error(err)
 }
 ```
+
+### importModule
+
+`importComponent` use to be called `importModule`, legacy projects could use `importModule` as usual.
