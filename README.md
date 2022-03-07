@@ -51,6 +51,10 @@ Options:
 - crossOrigin: value of attribute `crossorigin` of script tags created internally.
 - umd: Whether UMD mode is enabled.
 
+Note:
+
+- The default value of the field `crossOrigin` of importComponent's options is `true`. It sets the attribute `crossorigin` of `<script>` elements created by importComponent to `"anonymous"`. If you don't want the attribute `"crossorigin"` to be setted, please make sure that the field `crossOrigin` of importComponent's options setted to `""`.
+
 ```js
 import { importComponent } from 'runtime-import'
 
