@@ -12,7 +12,7 @@
     "experimentalDecorators": true,
     "removeComments": false,
     "noImplicitAny": true,
-    "diagnostics": true,
+    "diagnostics": false,
     "baseUrl": "./",
     "paths": {
       "tslib": ["node_modules/tslib"]
