@@ -1,5 +1,5 @@
 /**
- * 加载CSS
+ * Installs and uninstalls CSS files.
  *
  * @author yusangeng@outlook.com
  */
@@ -22,17 +22,17 @@ function installACSS(url: string): Promise<void> {
   if (status === CacheStatus.LOADING) {
     return new Promise((resolve, reject) => {
       const { el } = item
-      const loadCallback = () => {
-        el!.removeEventListener('load', loadCallback)
+      const handleLoad = () => {
+        el!.removeEventListener('load', handleLoad)
         resolve()
       }
-      const errorCallback = (evt: ErrorEvent) => {
-        el!.removeEventListener('error', errorCallback)
+      const handleError = (evt: ErrorEvent) => {
+        el!.removeEventListener('error', handleError)
         reject(evt.error)
       }
 
-      el!.addEventListener('load', loadCallback)
-      el!.addEventListener('error', errorCallback)
+      el!.addEventListener('load', handleLoad)
+      el!.addEventListener('error', handleError)
     })
   }
 
@@ -44,16 +44,16 @@ function installACSS(url: string): Promise<void> {
     el.rel = 'stylesheet'
     el.href = url
 
-    const loadCallback = () => {
-      el.removeEventListener('load', loadCallback)
+    const handleLoad = () => {
+      el.removeEventListener('load', handleLoad)
 
       item.status = CacheStatus.LOADED
       item.el = null
       resolve()
     }
 
-    const errorCallback = (evt: ErrorEvent) => {
-      el!.removeEventListener('error', errorCallback)
+    const handleError = (evt: ErrorEvent) => {
+      el!.removeEventListener('error', handleError)
 
       const error = evt.error || new Error(`Load css failed. href=${url}`)
 
@@ -64,8 +64,8 @@ function installACSS(url: string): Promise<void> {
       reject(error)
     }
 
-    el.addEventListener('load', loadCallback)
-    el.addEventListener('error', errorCallback)
+    el.addEventListener('load', handleLoad)
+    el.addEventListener('error', handleError)
 
     item.el = el
     document.head.appendChild(el)
@@ -97,6 +97,16 @@ export function installCSS(urls: Array<string>): Promise<void> {
       return Promise.reject(err)
     })
 }
+
+// export function uninstallCSS(urls: Array<string>): Promise<void> {
+//   return Promise.all(urls.map(url => uninstallACSS(url)))
+//     .then(() => {
+//       return Promise.resolve()
+//     })
+//     .catch(err => {
+//       return Promise.reject(err)
+//     })
+// }
 
 export function uninstallCSS(urls: Array<string>) {
   urls.forEach(url => uninstallACSS(url))
