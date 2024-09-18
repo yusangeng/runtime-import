@@ -4,7 +4,7 @@
  * @author yusangeng@outlook.com
  */
 
-import importFunctions, { importComponent, importScript, importStyle } from './import-functions'
+import { importComponent, importScript, importStyle } from './import-functions'
 
 const importModule = importComponent
 
@@ -15,5 +15,3 @@ export {
   /** @deprecated */
   importModule
 }
-
-export default importFunctions

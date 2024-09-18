@@ -105,5 +105,3 @@ export async function importStyle(url: string): Promise<void> {
   })
   return ret
 }
-
-export default { importComponent, importScript, importStyle }
