@@ -36,8 +36,8 @@ const umdDefine: FUMDDefine = function define(...args: Array<any>): void {
     throw new Error(`currentScript is null.`)
   }
 
-  let { src } = currentScript as HTMLScriptElement
-  let item = pendingItemMap[src]
+  const { src } = currentScript as HTMLScriptElement
+  const item = pendingItemMap[src]
 
   if (!item) {
     throw new Error(`Can NOT find item, src=${src}`)
@@ -98,8 +98,8 @@ const amdFlagCheater = () => {
   const { currentScript } = document
 
   if (currentScript) {
-    let { src } = currentScript as HTMLScriptElement
-    let item = pendingItemMap[src]
+    const { src } = currentScript as HTMLScriptElement
+    const item = pendingItemMap[src]
 
     if (item) {
       return true
