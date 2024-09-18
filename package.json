@@ -3,20 +3,13 @@
   "version": "2.2.1",
   "description": "Import remote resource(js or css) asynchronously.",
   "main": "cjs/index.js",
-  "module": "esm/index.js",
-  "types": "types/index.d.ts",
-  "type": "module",
-  "exports": {
-    ".": "./esm/index.js"
-  },
   "scripts": {
     "lint": "eslint --fix ./src && prettier --write ./src",
     "test": "cross-env BROWSER=Edge karma start karma.conf.cjs",
     "test-jsdom": "cross-env BROWSER=jsdom TS_NODE_PROJECT='./tsconfig.test.json' karma start karma.conf.cjs --singleRun=true",
     "coverage": "nyc report --reporter=lcov",
-    "esm": "rm -rf ./esm && rm -rf types && tsc -p tsconfig.esm.json",
     "cjs": "rm -rf ./cjs && tsc -p tsconfig.cjs.json",
-    "build": "npm run esm && npm run cjs",
+    "build": "npm run cjs",
     "prepublishOnly": "npm run test-jsdom && npm run build",
     "ci": "npm run lint && npm run build && npm run test-jsdom && npm run coverage"
   },
@@ -26,8 +19,9 @@
   },
   "keywords": [
     "import",
-    "runtime-import",
-    "loader"
+    "loader",
+    "umd",
+    "esmodule"
   ],
   "author": {
     "name": "yusangeng",
