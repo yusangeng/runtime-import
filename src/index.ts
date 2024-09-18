@@ -1,5 +1,5 @@
 /**
- * entry file.
+ * Entry file.
  *
  * @author yusangeng@outlook.com
  */

@@ -4,7 +4,7 @@
  * @author yusangeng@outlook.com
  */
 
-import { installCSS } from './installers/css-installer'
+import { installCSS } from './installers/css-installer/css-installer'
 import { installJS } from './installers/javascript-installer'
 
 interface ImportComponentOptions {
