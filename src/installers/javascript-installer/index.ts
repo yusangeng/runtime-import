@@ -5,7 +5,7 @@
  */
 
 import { cache, CacheItem, CacheStatus } from './javascript-cache'
-import addItem from './define'
+import addItem from './define-impostor'
 import { bindHandlers } from '../utils/bind-handlers'
 
 function patch4AlibabaVCLegacy(url: string): void {

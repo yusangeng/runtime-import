@@ -1,14 +1,13 @@
 /**
- * 全局define函数
+ * A fake AMD defined function.
  *
  * @author yusangeng@outlook.com
  */
 
-import { CacheStatus } from '../cache/cache'
-import { JSCacheItem } from '../cache/js'
-import { getInstance } from '../singleton'
+import { CacheStatus, CacheItem } from './javascript-cache'
+import { getInstance } from '../utils/singleton'
 
-const win = window as any
+const win = globalThis as any
 const { define } = win
 const { keys } = Object
 
@@ -19,7 +18,7 @@ if (typeof define !== 'undefined' && !define.runtime_import) {
   hasOtherAMDLoader = true
 }
 
-const pendingItemMap = getInstance<Record<string, JSCacheItem | null>>('pendingItemMap', () => ({}))
+const pendingItemMap = getInstance<Record<string, CacheItem | null>>('pendingItemMap', () => ({}))
 
 type FUMDDefine = {
   (...args: Array<any>): void
@@ -119,7 +118,7 @@ const amdFlagCheater = () => {
 // private flag
 umdDefine.runtime_import = true
 
-export default function addItem(src: string, item: JSCacheItem): void {
+export default function addItem(src: string, item: CacheItem): void {
   if (hasOtherAMDLoader) {
     throw new Error(`runtime-import UMD mode uses window.define, you should NOT have your own window.define.`)
   }
