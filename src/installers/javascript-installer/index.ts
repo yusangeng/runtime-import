@@ -6,8 +6,9 @@
 
 import { cache, CacheItem, CacheStatus } from './javascript-cache'
 import addItem from './define'
+import { bindHandlers } from '../utils/bind-handlers'
 
-function compactAlibabaVCOldVersion(url: string): void {
+function patch4AlibabaVCLegacy(url: string): void {
   // legacy: vc4.5.8+依赖g_config中的appkey
   const re = /legao-comp\/(.*)\/[\d.]+\/web.js$/
   const match = re.exec(url)
@@ -27,7 +28,7 @@ type InstallAJSOption = {
 
 function doInstallAJS(item: CacheItem, url: string, options: InstallAJSOption): Promise<any> {
   item.status = CacheStatus.LOADING
-  compactAlibabaVCOldVersion(url)
+  patch4AlibabaVCLegacy(url)
 
   const { umd, crossOrigin } = options
 
@@ -49,29 +50,24 @@ function doInstallAJS(item: CacheItem, url: string, options: InstallAJSOption): 
       addItem(realURL, item)
     }
 
-    const loadCallback = () => {
-      el.removeEventListener('load', loadCallback)
+    bindHandlers(
+      el,
+      () => {
+        item.status = CacheStatus.LOADED
+        item.el = null
 
-      item.status = CacheStatus.LOADED
-      item.el = null
+        resolve(item.exportThing)
+      },
+      evt => {
+        const error = evt.error || new Error(`Load javascript failed. src=${url}`)
 
-      resolve(item.exportThing)
-    }
+        item.status = CacheStatus.ERROR
+        item.error = error
+        item.el = null
 
-    const errorCallback = (evt: ErrorEvent) => {
-      el.removeEventListener('error', errorCallback)
-
-      const error = evt.error || new Error(`Load javascript failed. src=${url}`)
-
-      item.status = CacheStatus.ERROR
-      item.error = error
-      item.el = null
-
-      reject(error)
-    }
-
-    el.addEventListener('load', loadCallback)
-    el.addEventListener('error', errorCallback)
+        reject(error)
+      }
+    )
 
     item.el = el
     document.body.appendChild(el)
@@ -94,18 +90,11 @@ function installAJS(url: string, options: InstallAJSOption): Promise<any> {
     const { el } = item
 
     return new Promise((resolve, reject) => {
-      const loadCallback = () => {
-        el!.removeEventListener('load', loadCallback)
-        resolve(item.exportThing)
-      }
-
-      const errorCallback = (evt: ErrorEvent) => {
-        el!.removeEventListener('error', errorCallback)
-        reject(evt.error)
-      }
-
-      el!.addEventListener('load', loadCallback)
-      el!.addEventListener('error', errorCallback)
+      bindHandlers(
+        el!,
+        () => resolve(item.exportThing),
+        evt => reject(evt.error)
+      )
     })
   }
 
@@ -113,27 +102,19 @@ function installAJS(url: string, options: InstallAJSOption): Promise<any> {
 }
 
 type InstallJSOption = {
-  umd?: boolean
-  crossOrigin?: string
-}
-
-const defaultInstallOptions = {
-  umd: true,
-  // 避免window.onerror拿不到脚本的报错, 需要服务器支持
-  crossOrigin: 'anonymous'
+  umd: boolean
+  crossOrigin: string
 }
 
 export function installJS(urls: Array<string>, options: InstallJSOption): Promise<any> {
-  const opt = { ...defaultInstallOptions, ...options }
-
   let chain = Promise.resolve()
   const lastIndex = urls.length - 1
-  const { umd } = opt
+  const { umd } = options
 
   urls.forEach((url, index) => {
     // 只有最后一个js使用umd模式加载
     const useUmd = umd && index === lastIndex
-    chain = chain.then(() => installAJS(url, { ...opt, umd: useUmd }))
+    chain = chain.then(() => installAJS(url, { ...options, umd: useUmd }))
   })
 
   return chain

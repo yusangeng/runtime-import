@@ -5,6 +5,7 @@
  */
 
 import { cache, CacheStatus } from './css-cache'
+import { bindHandlers } from '../utils/bind-handlers'
 
 function installACSS(url: string): Promise<void> {
   const item = cache.getOrCreateItemByURL(url)
@@ -22,21 +23,11 @@ function installACSS(url: string): Promise<void> {
     return new Promise((resolve, reject) => {
       const { el } = item
 
-      const handlers = {
-        handleLoad() {
-          el!.removeEventListener('load', handlers.handleLoad)
-          el!.removeEventListener('error', handlers.handleError)
-          resolve()
-        },
-        handleError(evt: ErrorEvent) {
-          el!.removeEventListener('load', handlers.handleLoad)
-          el!.removeEventListener('error', handlers.handleError)
-          reject(evt.error)
-        }
-      }
-
-      el!.addEventListener('load', handlers.handleLoad)
-      el!.addEventListener('error', handlers.handleError)
+      bindHandlers(
+        el!,
+        () => resolve(),
+        evt => reject(evt.error)
+      )
     })
   }
 
@@ -48,20 +39,14 @@ function installACSS(url: string): Promise<void> {
     el.rel = 'stylesheet'
     el.href = url
 
-    const handlers = {
-      handleLoad() {
-        el.removeEventListener('load', handlers.handleLoad)
-        el.removeEventListener('error', handlers.handleError)
-
+    bindHandlers(
+      el,
+      () => {
         item.status = CacheStatus.LOADED
         item.el = null
         resolve()
       },
-
-      handleError(evt: ErrorEvent) {
-        el.removeEventListener('load', handlers.handleLoad)
-        el!.removeEventListener('error', handlers.handleError)
-
+      evt => {
         const error = evt.error || new Error(`Load css failed. href=${url}`)
 
         item.status = CacheStatus.ERROR
@@ -70,10 +55,7 @@ function installACSS(url: string): Promise<void> {
 
         reject(error)
       }
-    }
-
-    el.addEventListener('load', handlers.handleLoad)
-    el.addEventListener('error', handlers.handleError)
+    )
 
     item.el = el
     document.head.appendChild(el)
