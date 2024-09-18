@@ -4,9 +4,9 @@
  * @author yusangeng@outlook.com
  */
 
-import { CacheStatus } from '../cache/cache'
-import cache, { JSCacheItem } from '../cache/js'
-import addItem from './define'
+import { CacheStatus } from '../../cache/cache'
+import cache, { JSCacheItem } from '../../cache/js'
+import addItem from '../define'
 
 function compactAlibabaVCOldVersion(url: string): void {
   // patch: vc4.5.8+依赖g_config中的appkey
