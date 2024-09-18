@@ -1,18 +1,18 @@
 /**
- * js缓存
+ * javascript cache.
  *
  * @author yusangeng@outlook.com
  */
 
-import { Cache, CacheItem, CacheStatus } from './cache'
-import { getInstance } from '../singleton'
+import { Cache, CacheItem, CacheStatus } from '../utils/cache'
+import { getInstance } from '../utils/singleton'
 
-export interface JSCacheItem extends CacheItem {
+interface JSCacheItem extends CacheItem {
   el: HTMLScriptElement | null
   exportThing: any
 }
 
-const jsCache = getInstance('jsCache', () => {
+const cache = getInstance('jsCache', () => {
   return new Cache<JSCacheItem>((key: string) => {
     return {
       url: key,
@@ -25,4 +25,4 @@ const jsCache = getInstance('jsCache', () => {
   })
 })
 
-export default jsCache
+export { cache, JSCacheItem as CacheItem, CacheStatus }

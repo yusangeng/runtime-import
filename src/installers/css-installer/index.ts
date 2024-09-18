@@ -4,8 +4,7 @@
  * @author yusangeng@outlook.com
  */
 
-import { CacheStatus } from '../cache/cache'
-import cache from '../cache/css'
+import { cache, CacheStatus } from './css-cache'
 
 function installACSS(url: string): Promise<void> {
   const item = cache.getOrCreateItemByURL(url)

@@ -1,15 +1,14 @@
 /**
- * 加载JS
+ * Installs javascript files.
  *
  * @author yusangeng@outlook.com
  */
 
-import { CacheStatus } from '../../cache/cache'
-import cache, { JSCacheItem } from '../../cache/js'
-import addItem from '../define'
+import { cache, CacheItem, CacheStatus } from './javascript-cache'
+import addItem from './define'
 
 function compactAlibabaVCOldVersion(url: string): void {
-  // patch: vc4.5.8+依赖g_config中的appkey
+  // legacy: vc4.5.8+依赖g_config中的appkey
   const re = /legao-comp\/(.*)\/[\d.]+\/web.js$/
   const match = re.exec(url)
   const win = window as any
@@ -26,7 +25,7 @@ type InstallAJSOption = {
   crossOrigin: string
 }
 
-function doInstallAJS(item: JSCacheItem, url: string, options: InstallAJSOption): Promise<any> {
+function doInstallAJS(item: CacheItem, url: string, options: InstallAJSOption): Promise<any> {
   item.status = CacheStatus.LOADING
   compactAlibabaVCOldVersion(url)
 

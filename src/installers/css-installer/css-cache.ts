@@ -1,17 +1,17 @@
 /**
- * css缓存
+ * Css cache.
  *
  * @author yusangeng@outlook.com
  */
 
-import { Cache, CacheItem, CacheStatus } from './cache'
-import { getInstance } from '../singleton'
+import { Cache, CacheItem, CacheStatus } from '../utils/cache'
+import { getInstance } from '../utils/singleton'
 
-export interface CSSCacheItem extends CacheItem {
+interface CSSCacheItem extends CacheItem {
   el: HTMLLinkElement | null
 }
 
-const cssCache = getInstance('cssCache', () => {
+const cache = getInstance('cssCache', () => {
   return new Cache<CSSCacheItem>((key: string) => {
     return {
       url: key,
@@ -23,4 +23,4 @@ const cssCache = getInstance('cssCache', () => {
   })
 })
 
-export default cssCache
+export { cache, CacheStatus }
