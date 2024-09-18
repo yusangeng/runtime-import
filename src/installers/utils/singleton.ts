@@ -1,5 +1,5 @@
 /**
- * singleton.
+ * Singleton.
  *
  * Applications may bundle runtime-import into a UMD script, leading to multiple runtime-import instances in a single HTML page.
  * Therefore, a globally unique instance map is needed.

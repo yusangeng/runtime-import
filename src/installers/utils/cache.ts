@@ -1,5 +1,5 @@
 /**
- * 缓存
+ * A simple cache implemention for storing and retrieving items by URL.
  *
  * @author yusangeng@outlook.com
  */
