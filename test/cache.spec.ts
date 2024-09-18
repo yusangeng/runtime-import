@@ -1,6 +1,6 @@
 /* global describe it */
-import jsCache from '../src/cache/js'
-import cssCache from '../src/cache/css'
+import { cache as jsCache } from '../src/installers/javascript-installer/javascript-cache'
+import { cache as cssCache } from '../src/installers/css-installer/css-cache'
 
 /* eslint no-undef: 0 */
 

@@ -1,6 +1,6 @@
 /* global describe it */
 import sleep from 'sleep-promise'
-import { installJS } from '../src/installer/js'
+import { installJS } from '../src/installers/javascript-installer'
 
 const reactURL = '//r.haier.net/assets/overlay/dts-fe/common-assets/react/16.13.1/react.development.js'
 const lodashURL = '//r.haier.net/assets/overlay/dts-fe/common-assets/lodash/4.17.21/lodash.min.js'
@@ -15,7 +15,10 @@ function loose<T>(value: T) {
 describe('installJS', () => {
   describe('#installJS', () => {
     it('should install react properly.', async () => {
-      const React = await installJS([reactURL], {})
+      const React = await installJS([reactURL], {
+        umd: true,
+        crossOrigin: 'anonymous'
+      })
 
       const t = typeof React.Component
       t.should.eq('function')
@@ -37,7 +40,10 @@ describe('installJS', () => {
 
   describe('#JS cache', () => {
     it('should return cached value if js has been loaded.', async () => {
-      const React = await installJS([reactURL], {})
+      const React = await installJS([reactURL], {
+        umd: true,
+        crossOrigin: 'anonymous'
+      })
 
       const t = typeof React.Component
       t.should.eq('function')
@@ -50,8 +56,14 @@ describe('installJS', () => {
     }).timeout(10000)
 
     it('should return cached value if js is being loaded.', async () => {
-      installJS([jqueryURL], {})
-      installJS([jqueryURL], {})
+      installJS([jqueryURL], {
+        umd: true,
+        crossOrigin: 'anonymous'
+      })
+      installJS([jqueryURL], {
+        umd: true,
+        crossOrigin: 'anonymous'
+      })
 
       await sleep(500)
 

@@ -1,6 +1,6 @@
 /* global describe it */
 import sleep from 'sleep-promise'
-import { installCSS } from '../src/installer/css'
+import { installCSS } from '../src/installers/css-installer'
 
 const url = '//r.haier.net/assets/overlay/dts-fe/common-assets/bootstrap/4.2.1/bootstrap.css'
 
