@@ -22,17 +22,22 @@ function installACSS(url: string): Promise<void> {
   if (status === CacheStatus.LOADING) {
     return new Promise((resolve, reject) => {
       const { el } = item
-      const handleLoad = () => {
-        el!.removeEventListener('load', handleLoad)
-        resolve()
-      }
-      const handleError = (evt: ErrorEvent) => {
-        el!.removeEventListener('error', handleError)
-        reject(evt.error)
+
+      const handlers = {
+        handleLoad() {
+          el!.removeEventListener('load', handlers.handleLoad)
+          el!.removeEventListener('error', handlers.handleError)
+          resolve()
+        },
+        handleError(evt: ErrorEvent) {
+          el!.removeEventListener('load', handlers.handleLoad)
+          el!.removeEventListener('error', handlers.handleError)
+          reject(evt.error)
+        }
       }
 
-      el!.addEventListener('load', handleLoad)
-      el!.addEventListener('error', handleError)
+      el!.addEventListener('load', handlers.handleLoad)
+      el!.addEventListener('error', handlers.handleError)
     })
   }
 
@@ -44,28 +49,32 @@ function installACSS(url: string): Promise<void> {
     el.rel = 'stylesheet'
     el.href = url
 
-    const handleLoad = () => {
-      el.removeEventListener('load', handleLoad)
+    const handlers = {
+      handleLoad() {
+        el.removeEventListener('load', handlers.handleLoad)
+        el.removeEventListener('error', handlers.handleError)
 
-      item.status = CacheStatus.LOADED
-      item.el = null
-      resolve()
+        item.status = CacheStatus.LOADED
+        item.el = null
+        resolve()
+      },
+
+      handleError(evt: ErrorEvent) {
+        el.removeEventListener('load', handlers.handleLoad)
+        el!.removeEventListener('error', handlers.handleError)
+
+        const error = evt.error || new Error(`Load css failed. href=${url}`)
+
+        item.status = CacheStatus.ERROR
+        item.error = error
+        item.el = null
+
+        reject(error)
+      }
     }
 
-    const handleError = (evt: ErrorEvent) => {
-      el!.removeEventListener('error', handleError)
-
-      const error = evt.error || new Error(`Load css failed. href=${url}`)
-
-      item.status = CacheStatus.ERROR
-      item.error = error
-      item.el = null
-
-      reject(error)
-    }
-
-    el.addEventListener('load', handleLoad)
-    el.addEventListener('error', handleError)
+    el.addEventListener('load', handlers.handleLoad)
+    el.addEventListener('error', handlers.handleError)
 
     item.el = el
     document.head.appendChild(el)
