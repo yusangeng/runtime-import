@@ -1,23 +1,23 @@
 /**
- * 全局单例
+ * singleton.
+ *
+ * Applications may bundle runtime-import into a UMD script, leading to multiple runtime-import instances in a single HTML page.
+ * Therefore, a globally unique instance map is needed.
  *
  * @author yusangeng@outlook.com
  */
 
-const win = window as any
+const mapName = '__RUNTIME_IMPORT__'
 
-let { __RUNTIME_IMPORT__ } = win
-
-if (!__RUNTIME_IMPORT__) {
-  win.__RUNTIME_IMPORT__ = __RUNTIME_IMPORT__ = {}
-}
-
-export function getInstance<T>(key: string, factory: () => T) {
-  let value: T = __RUNTIME_IMPORT__[key]
-
-  if (typeof value === 'undefined') {
-    value = __RUNTIME_IMPORT__[key] = factory()
+export function getInstance<T>(name: string, factory: () => T) {
+  type GlobalContext = {
+    [mapName]: Record<string, T>
   }
 
-  return value
+  const ctx = globalThis as any as GlobalContext
+  const map = ctx[mapName] ?? (ctx[mapName] = {})
+
+  const instance: T = map[name] ?? (map[name] = factory())
+
+  return instance
 }
