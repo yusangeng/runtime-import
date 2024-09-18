@@ -1,16 +1,19 @@
 /**
- * 入口文件
+ * entry file.
  *
  * @author yusangeng@outlook.com
  */
 
-import importer, { importComponent, importScript, importStyle } from './importer'
+import importFunctions, { importComponent, importScript, importStyle } from './import-functions'
 
-/**
- * @deprecated
- */
 const importModule = importComponent
 
-export { importComponent, importModule, importScript, importStyle }
+export {
+  importComponent,
+  importScript,
+  importStyle,
+  /** @deprecated */
+  importModule
+}
 
-export default importer
+export default importFunctions
