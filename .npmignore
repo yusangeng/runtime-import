@@ -1,9 +1,11 @@
-node_modules
 coverage
 src
+
+.github
 .vscode
-.prettierrc
-.travis.yml
-karma.conf.js
-tsconfig.json
 .gitignore
+.prettierrc
+
+pnpm-lock.yaml
+tsconfig.json
+vite.config.js

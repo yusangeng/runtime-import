@@ -60,11 +60,6 @@ typings/
 # next.js build output
 .next
 
-yarn.lock
 .DS_Store
-lib
-.package
-doc
-esm
 cjs
-types
+dist
