@@ -41,13 +41,17 @@ function doInstallAJS(item: CacheItem, url: string, options: InstallAJSOption): 
     el.crossOrigin = crossOrigin
 
     if (umd) {
-      // 用于define函数发生错误时调用, 详见define.ts
+      el.setAttribute('data-runtime-import-type', 'javascript-umd')
+
+      // 用于define函数发生错误时调用, 详见define-imposter.ts
       item.reject = reject
 
       // 以//开头的地址以及相对地址, 传给el.src后会被补全
       const realURL = el.src
       // 插入加载队列, 详见define.ts
       addItem(realURL, item)
+    } else {
+      el.setAttribute('data-runtime-import-type', 'javascript')
     }
 
     bindHandlers(
