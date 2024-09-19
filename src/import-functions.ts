@@ -75,7 +75,7 @@ type ImportScriptOptions = {
  * @returns {Promise<any>} export for a UMD file, nothing for a normal file.
  */
 export async function importScript(url: string, options?: ImportScriptOptions): Promise<any> {
-  const opt = { ...(options ?? {}) }
+  const opt = options ?? {}
   const ret = await importComponent({
     scripts: {
       dependencies: [],
