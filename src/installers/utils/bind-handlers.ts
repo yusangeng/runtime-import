@@ -5,7 +5,7 @@
  */
 
 export function bindHandlers(
-  el: HTMLLinkElement | HTMLScriptElement,
+  el: HTMLLinkElement | HTMLScriptElement | HTMLImageElement,
   handleLoad: () => void,
   handleError: (evt: ErrorEvent) => void
 ) {
