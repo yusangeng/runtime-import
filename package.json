@@ -8,7 +8,7 @@
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "build": "vite build",
-    "prepublishOnly": "npm run test && npm run build"
+    "prepublishOnly": "npm run coverage && npm run build"
   },
   "repository": {
     "type": "git",
