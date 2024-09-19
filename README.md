@@ -1,6 +1,6 @@
 # runtime-import
 
-[![Build Status](https://github.com/yusangeng/runtime-import/workflows/test/badge.svg)](https://github.com/yusangeng/runtime-import/actions?query=workflow%3Atest) [![Npm Package](https://badge.fury.io/js/runtime-import.svg)](https://www.npmjs.com/package/runtime-import) [![Downloads](https://img.shields.io/npm/dw/runtime-import.svg?style=flat)](https://www.npmjs.com/package/runtime-import)
+[![Npm Package](https://badge.fury.io/js/runtime-import.svg)](https://www.npmjs.com/package/runtime-import) [![Downloads](https://img.shields.io/npm/dw/runtime-import.svg?style=flat)](https://www.npmjs.com/package/runtime-import)
 
 Import remote resource(js or css) asynchronously.
 
