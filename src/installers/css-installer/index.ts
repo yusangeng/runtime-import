@@ -43,7 +43,6 @@ function installACSS(url: string): Promise<void> {
       el,
       () => {
         item.status = CacheStatus.LOADED
-        item.el = null
         resolve()
       },
       evt => {
@@ -51,13 +50,13 @@ function installACSS(url: string): Promise<void> {
 
         item.status = CacheStatus.ERROR
         item.error = error
-        item.el = null
 
         reject(error)
       }
     )
 
     item.el = el
+    el.setAttribute('data-runtime-import-type', 'css')
     document.head.appendChild(el)
   })
 }
@@ -74,6 +73,7 @@ function uninstallACSS(url: string): Promise<void> {
   }
 
   document.head.removeChild(item.el)
+  cache.removeItemByURL(url)
 
   return Promise.resolve()
 }
