@@ -4,6 +4,14 @@
 
 Import remote resource(js or css) asynchronously.
 
+> To avoid duplicating runtime-import package, loading a umd bundle file in html is recommended.
+>
+> The newest umd bundle file is:
+>
+> ```
+> https://unpkg.com/runtime-import@3.0.0-beta.0/dist/runtime-import.umd.js
+> ```
+
 ## Install
 
 ```shell
