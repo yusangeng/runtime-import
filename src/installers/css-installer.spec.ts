@@ -25,7 +25,7 @@ describe('CSS Cache', () => {
   it('should cache css files', async () => {
     await installCSS(urls)
     await installCSS(urls)
-    let els = document.querySelectorAll('link[data-runtime-import-type="css"]')
+    const els = document.querySelectorAll('link[data-runtime-import-type="css"]')
 
     expect(els.length).toBe(2)
 
@@ -36,7 +36,7 @@ describe('CSS Cache', () => {
   it('cache should be valid even if the first install pending', async () => {
     await Promise.all([installCSS(urls), installCSS(urls)])
 
-    let els = document.querySelectorAll('link[data-runtime-import-type="css"]')
+    const els = document.querySelectorAll('link[data-runtime-import-type="css"]')
 
     expect(els.length).toBe(2)
   })

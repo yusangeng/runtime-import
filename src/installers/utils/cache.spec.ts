@@ -24,7 +24,7 @@ describe('cache', () => {
   })
 
   test('create cache object', () => {
-    const newCache = new Cache<Item>((key: string) => {
+    const newCache = new Cache<Item>(() => {
       return {
         url: '',
         status: CacheStatus.LOADING,

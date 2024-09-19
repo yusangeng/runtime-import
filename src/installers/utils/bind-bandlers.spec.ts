@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeEach } from 'vitest'
+import { describe, test, expect } from 'vitest'
 import { bindHandlers } from './bind-handlers'
 import sleep from 'sleep-promise'
 

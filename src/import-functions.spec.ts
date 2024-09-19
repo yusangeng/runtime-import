@@ -34,7 +34,7 @@ describe('import script', () => {
 describe('import style', () => {
   it('should import style', async () => {
     await importStyle(cssURL)
-    let els = document.querySelectorAll(`link[href="${cssURL}"]`)
+    const els = document.querySelectorAll(`link[href="${cssURL}"]`)
 
     expect(els.length).toBe(1)
   })
