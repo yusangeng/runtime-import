@@ -1,6 +1,6 @@
 {
   "name": "runtime-import",
-  "version": "3.0.0-beta.0",
+  "version": "3.0.0",
   "description": "Import remote resource(js or css) asynchronously.",
   "main": "dist/runtime-import.umd.js",
   "scripts": {
