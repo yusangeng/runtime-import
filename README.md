@@ -9,7 +9,7 @@ Import remote resource(js or css) asynchronously.
 > The newest umd bundle file is:
 >
 > ```
-> https://unpkg.com/runtime-import@3.0.0-beta.0/dist/runtime-import.umd.js
+> https://unpkg.com/runtime-import@3.0.0/dist/runtime-import.umd.js
 > ```
 
 ## Install
